@@ -11,5 +11,5 @@ Enable to display Web Core Vitals metrics into the page. It helps to diagnostics
 So simple, you have only to add the bookmarklet below to your bookmarks bar.
 
 ```javascript
-javascript:(function(){var el=document.createElement('script');el.src='https://raw.githubusercontent.com/Ludovic33Fr/WCV-HeatMap/main/wcvmap.js';document.body.appendChild(el);})();
+javascript:(function(){var el=document.createElement('script');el.src='https://ludovic33fr.github.io/WCV-HeatMap/wcvmap.js';document.body.appendChild(el);})();
 ```
