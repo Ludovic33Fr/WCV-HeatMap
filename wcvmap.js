@@ -21,11 +21,39 @@ function triggerCLS() {
 	}).observe({type: "layout-shift", buffered: true})
 }
 
+function markLCP() {
+	new PerformanceObserver((entryList) => {
+		for (const entry of entryList.getEntries()) {
+			console.log('LCP candidate:', entry.startTime, entry);
+
+			//Mark the element LCP
+			var elem = entry.element;
+
+			if (elem  != null) {
+				elem.style.border = '4px solid blue';
+				elem.style.borderRadius = '4em';					
+			}
+
+			changeLine('linelcp', entry.startTime);
+		}
+	  }).observe({type: 'largest-contentful-paint', buffered: true});
+}
+
 function changeLine(eltName, value) {
 	var eltLine = document.getElementById(eltName);
-	var perc = 100 * value / 1;
-	eltLine.style.left = perc+'%';
-	eltLine.innerHTML = '| ' + (value*100).toFixed(2) + '%';
+
+	if (eltName == 'linecls') {
+		var perc = 100 * value / 1;
+		eltLine.style.left = perc+'%';
+		eltLine.innerHTML = (value*100).toFixed(2) + '%';
+	}
+
+	if (eltName == 'linelcp') {
+		var perc = 100 * value / 5000;
+		eltLine.style.left = perc+'%';
+		eltLine.innerHTML = value.toFixed(0) + ' ms';
+	}
+
 }
 
 // give visual feedback asap
@@ -60,17 +88,31 @@ while(elements.length > 0){
 // build bottom legend CLS
 var gaugecls = document.createElement("div");
 gaugecls.id = "clsmap";
-var legendCLS = "<div style='width:10%; height: 50px; float:left; background-color:#0cce6b;'></div><div style='width:15%; height: 50px; float:left; background-color:#ffa400;'></div><div style='width:75%; height: 50px; float:left; background-color:#ff4e42;'></div>";
+var legendCLS = "<div style='width:10%; height: 25px; float:left; background-color:#0cce6b;'></div><div style='width:15%; height: 25px; float:left; background-color:#ffa400;'></div><div style='width:75%; height: 25px; float:left; background-color:#ff4e42;'></div>";
 legendCLS += "<div style='position:absolute; z-index:3; left:0%; padding-top:5px; border-left:2px solid white;padding-left:5px;height:100%;color:#fff;'>CLS</div>";
 legendCLS += "<div id='linecls' style='position:absolute; z-index:3; left:0%; padding-top:5px; border-left:2px solid white;padding-left:5px;height:100%;color:#fff;'></div></div>";
 gaugecls.style.cssText = "position: fixed; width:100%; bottom:0; left:0; z-index:5000; height: 25px; color:#fff; font-family:\"Helvetica Neue\",sans-serif; font-size:14px; font-weight:800; line-height:14px;";
 gaugecls.innerHTML = legendCLS;
 document.body.appendChild(gaugecls);
 
+// build bottom legend LCP
+var gaugelcp = document.createElement("div");
+gaugelcp.id = "lcpmap";
+var legendLCP = "<div style='width:50%; height: 25px; float:left; background-color:#0cce6b;'></div><div style='width:30%; height: 25px; float:left; background-color:#ffa400;'></div><div style='width:20%; height: 25px; float:left; background-color:#ff4e42;'></div>";
+legendLCP += "<div style='position:absolute; z-index:3; left:0%; padding-top:5px; border-left:2px solid white;padding-left:5px;height:100%;color:#fff;'>LCP</div>";
+legendLCP += "<div id='linelcp' style='position:absolute; z-index:3; left:0%; padding-top:5px; border-left:2px solid white;padding-left:5px;height:100%;color:#fff;'></div></div>";
+gaugelcp.style.cssText = "position: fixed; width:100%; bottom:30px; left:0; z-index:5000; height: 25px; color:#fff; font-family:\"Helvetica Neue\",sans-serif; font-size:14px; font-weight:800; line-height:14px;";
+gaugelcp.innerHTML = legendLCP;
+document.body.appendChild(gaugelcp);
+
+// mark the LCP
+markLCP();
+
+// mark the CLS
+triggerCLS();
+
 // remove loading
 loading.remove();
 
-// build heatmap
-triggerCLS();
 
 
