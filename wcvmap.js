@@ -4,21 +4,35 @@ function triggerCLS() {
 	new PerformanceObserver((list) => {
 		for (const entry of list.getEntries()) {
 			if (!entry.hadRecentInput) {
-				cls += entry.value
-				console.log('Total:', cls, 'Current:', entry.value, ...entry.sources.map(s => s.node))
-				
+
 				//Mark the element shifted
 				var elem = entry.sources.map(s => s.node)[0];
-				
-				if (elem  != null) {
-					elem.style.border = '4px solid red';
-					elem.style.borderRadius = '4em';					
+
+				if (elem.id != "linecls" && elem.id != "linefid" && elem.id != "linelcp") {
+					cls += entry.value
+					console.log('Total:', cls, 'Current:', entry.value, ...entry.sources.map(s => s.node))
+					
+					if (elem  != null) {
+						elem.style.border = '4px solid red';
+						elem.style.borderRadius = '4em';					
+					}
+					
+					changeLine('linecls', cls);	
 				}
-				
-				changeLine('linecls', cls);
 			}
 		}
 	}).observe({type: "layout-shift", buffered: true})
+}
+
+function triggerFID() {
+	new PerformanceObserver((entryList) => {
+		for (const entry of entryList.getEntries()) {
+		  const delay = entry.processingStart - entry.startTime;
+		  console.log('FID candidate:', delay, entry);
+
+		  changeLine('linefid', delay);
+		}
+	  }).observe({type: 'first-input', buffered: true});
 }
 
 function markLCP() {
@@ -46,6 +60,12 @@ function changeLine(eltName, value) {
 		var perc = 100 * value / 1;
 		eltLine.style.left = perc+'%';
 		eltLine.innerHTML = (value*100).toFixed(2) + '%';
+	}
+
+	if (eltName == 'linefid') {
+		var perc = 100 * value / 500;
+		eltLine.style.left = perc+'%';
+		eltLine.innerHTML = (value).toFixed(0) + ' ms';
 	}
 
 	if (eltName == 'linelcp') {
@@ -95,18 +115,31 @@ gaugecls.style.cssText = "position: fixed; width:100%; bottom:0; left:0; z-index
 gaugecls.innerHTML = legendCLS;
 document.body.appendChild(gaugecls);
 
+// build bottom legend FID
+var gaugefid = document.createElement("div");
+gaugefid.id = "fidmap";
+var legendFID = "<div style='width:20%; height: 25px; float:left; background-color:#0cce6b;'></div><div style='width:40%; height: 25px; float:left; background-color:#ffa400;'></div><div style='width:40%; height: 25px; float:left; background-color:#ff4e42;'></div>";
+legendFID += "<div style='position:absolute; z-index:3; left:0%; padding-top:5px; border-left:2px solid white;padding-left:5px;height:100%;color:#fff;'>FID</div>";
+legendFID += "<div id='linefid' style='position:absolute; z-index:3; left:0%; padding-top:5px; border-left:2px solid white;padding-left:5px;height:100%;color:#fff;'></div></div>";
+gaugefid.style.cssText = "position: fixed; width:100%; bottom:30px; left:0; z-index:5000; height: 25px; color:#fff; font-family:\"Helvetica Neue\",sans-serif; font-size:14px; font-weight:800; line-height:14px;";
+gaugefid.innerHTML = legendFID;
+document.body.appendChild(gaugefid);
+
 // build bottom legend LCP
 var gaugelcp = document.createElement("div");
 gaugelcp.id = "lcpmap";
 var legendLCP = "<div style='width:50%; height: 25px; float:left; background-color:#0cce6b;'></div><div style='width:30%; height: 25px; float:left; background-color:#ffa400;'></div><div style='width:20%; height: 25px; float:left; background-color:#ff4e42;'></div>";
 legendLCP += "<div style='position:absolute; z-index:3; left:0%; padding-top:5px; border-left:2px solid white;padding-left:5px;height:100%;color:#fff;'>LCP</div>";
 legendLCP += "<div id='linelcp' style='position:absolute; z-index:3; left:0%; padding-top:5px; border-left:2px solid white;padding-left:5px;height:100%;color:#fff;'></div></div>";
-gaugelcp.style.cssText = "position: fixed; width:100%; bottom:30px; left:0; z-index:5000; height: 25px; color:#fff; font-family:\"Helvetica Neue\",sans-serif; font-size:14px; font-weight:800; line-height:14px;";
+gaugelcp.style.cssText = "position: fixed; width:100%; bottom:60px; left:0; z-index:5000; height: 25px; color:#fff; font-family:\"Helvetica Neue\",sans-serif; font-size:14px; font-weight:800; line-height:14px;";
 gaugelcp.innerHTML = legendLCP;
 document.body.appendChild(gaugelcp);
 
 // mark the LCP
 markLCP();
+
+//Observe the FID
+triggerFID();
 
 // mark the CLS
 triggerCLS();

@@ -1,0 +1,22 @@
+{
+  "name": "WCV-HeatMap",
+  "homepage": "https://github.com/Ludovic33Fr/WCV-HeatMap",
+  "authors": [
+    "Ludovic LEFEBVRE <gothacrafty@msn.com>"
+  ],
+  "description": "Enable to map Web Core Vitals",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ionic": "^5.5.4",
+    "jquery": "^3.5.1"
+  }
+}

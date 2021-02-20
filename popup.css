@@ -1,0 +1,36 @@
+html {
+	width: 400px;
+	min-height: 394px;
+}
+
+.has-header {
+	position: relative;
+	top: 44px !important;
+	height: 350px;
+	overflow-x: hidden;
+	overflow-y: auto;
+
+}
+.clearfix::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+.f-right {
+	float: right
+}
+
+.checkboxes label {
+	display: inline-block;
+	padding-right: 10px;
+	white-space: nowrap;
+}
+
+.checkboxes input {
+	vertical-align: middle;
+}
+
+.checkboxes label span {
+	vertical-align: middle;
+}
