@@ -1,5 +1,5 @@
 {
-    "name": "WebCoreVital",
+    "name": "WebCoreVital-HeatMap",
     "description": "Trigger the web core vitals metrics in order to display HeatMap on page and troubleshoot performance issue and diagnostic",
     "version": "1.1",
     "permissions": [
