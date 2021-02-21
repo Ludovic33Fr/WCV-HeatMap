@@ -1,26 +1,27 @@
 {
-    "name": "WebCoreVital-HeatMap",
-    "description": "Trigger the web core vitals metrics in order to display HeatMap on page and troubleshoot performance issue and diagnostic",
-    "version": "1.1",
-    "permissions": [
-      "tabs", "http://*/*", "https://*/*", "storage"
-    ],
-    "browser_action": {
-        "default_icon": "logo-wcv-heatmap-16.png",
-        "default_title": "WCV-HeatMap",
-        "default_popup": "popup.html"
-    },
-    "background": {
-        "scripts": ["background.js"]
-    },
-    "icons": {
-      "16": "logo-wcv-heatmap-16.png",
-      "32": "logo-wcv-heatmap-32.png",
-      "128": "logo-wcv-heatmap-128.png"
-    },
-    "manifest_version": 2
-  }
-  
-  
-
-  
+  "name": "WebCoreVital-HeatMap",
+  "description": "Trigger the web core vitals metrics in order to display HeatMap on page and troubleshoot performance issue and diagnostic",
+  "version": "1.1",
+  "permissions": [
+    "tabs",
+    "http://*/*",
+    "https://*/*",
+    "storage"
+  ],
+  "browser_action": {
+    "default_icon": "logo-wcv-heatmap-16.png",
+    "default_title": "WCV-HeatMap",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "icons": {
+    "16": "logo-wcv-heatmap-16.png",
+    "32": "logo-wcv-heatmap-32.png",
+    "128": "logo-wcv-heatmap-128.png"
+  },
+  "manifest_version": 2
+}
