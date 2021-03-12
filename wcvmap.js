@@ -13,8 +13,19 @@ function triggerCLS() {
 					console.log('Total:', cls, 'Current:', entry.value, ...entry.sources.map(s => s.node))
 					
 					if (elem  != null) {
+						
+						//Round the element
 						elem.style.border = '4px solid red';
-						elem.style.borderRadius = '4em';					
+						elem.style.borderRadius = '4em';
+						
+						//Add the mark with value CLS added
+						var addCls = (entry.value * 100).toFixed(0); 
+						const divMarkCls = document.createElement('div');
+						var markCLS = "<span>" + addCls + "%</span>"
+						divMarkCls.innerHTML = markCLS;
+						divMarkCls.style.cssText = "background-color: black; color: white; border-radius: 4em; padding: 2px; font-size: x-small; position: absolute;";
+						elem.appendChild(divMarkCls);
+
 					}
 					
 					changeLine('linecls', cls);	
