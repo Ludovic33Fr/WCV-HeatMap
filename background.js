@@ -1,7 +1,7 @@
 // User has navigated to a new URL in a tab
 chrome.tabs.onUpdated.addListener ((tabId, changeInfo, tab) => {
   if (
-    changeInfo.status == 'complete' &&
+    changeInfo.status == 'loading' &&
     tab.url.startsWith ('http') &&
     tab.active
   ) {
