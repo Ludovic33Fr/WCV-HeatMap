@@ -1,7 +1,7 @@
 {
-  "name": "WebCoreVital-HeatMap",
-  "description": "Trigger the web core vitals metrics in order to display HeatMap on page and troubleshoot performance issue and diagnostic",
-  "version": "1.2",
+  "name": "Cdiscount-FakeAds",
+  "description": "Enable to add dynamic",
+  "version": "1.0",
   "permissions": [
     "tabs",
     "storage",
@@ -11,7 +11,7 @@
   ],
   "browser_action": {
     "default_icon": "logo-wcv-heatmap-16.png",
-    "default_title": "WCV-HeatMap",
+    "default_title": "Cds-FakeAds",
     "default_popup": "popup.html"
   },
   "background": {

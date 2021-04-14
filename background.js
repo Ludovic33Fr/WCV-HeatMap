@@ -5,16 +5,16 @@ chrome.tabs.onUpdated.addListener ((tabId, changeInfo, tab) => {
     tab.url.startsWith ('http') &&
     tab.active
   ) {
-    InjectWatcherPerf ();
+    InjectWatcherAds ();
   }
 });
 
 // User has made a new or existing tab visible
 chrome.tabs.onActivated.addListener (({tabId, windowId}) => {
-  InjectWatcherPerf ();
+  InjectWatcherAds ();
 });
 
-function InjectWatcherPerf () {
+function InjectWatcherAds () {
   chrome.storage.sync.get (['active'], function (obj) {
     if (obj.active == true) {
       chrome.tabs.executeScript (null, {
